@@ -1314,8 +1314,8 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
       if (gfSaving) { gfDirty = true; return; } gfSaving = true;
       gfDb.doc('graffiti/' + gfUid).set({ tile: gfTile, strokes: gfMine, t: Date.now() }).then(function () { gfStatus(i18n('g_saved')); }, function (err) {
         var code = err && err.code;
-        if (code === 'quota_exceeded') gfStatus(i18n('g_quota'));
-        else if (code === 'invalid_argument') { gfCanWrite = false; gfLocalTile = gfTile; gfTile = null; GF.mode = 'readonly'; gfStatus(i18n('g_noperm')); GF.refresh && GF.refresh(); }
+        if (code === 'quota_exceeded' || code === 'resource-exhausted') gfStatus(i18n('g_quota'));
+        else if (code === 'invalid_argument' || code === 'permission-denied') { gfCanWrite = false; gfLocalTile = gfTile; gfTile = null; GF.mode = 'readonly'; gfStatus(i18n('g_noperm')); GF.refresh && GF.refresh(); }
         else gfStatus(i18n('g_fail'));
       }).then(function () { gfSaving = false; if (gfDirty) { gfDirty = false; gfFlush(); } });
     }
@@ -1331,8 +1331,33 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
     };
     (function gfInit() {
       var use = function (n) { try { return window.claude && window.claude.use ? window.claude.use(n) : Promise.resolve(null); } catch (x) { return Promise.resolve(null); } };
+      /* Off claude.ai (own domain): same Firestore-style db + user via Firebase (anonymous sign-in). Falls back to local-only if it can't load. */
+      var fbShim = function () {
+        return new Promise(function (res) {
+          var done = false, fin = function (v) { if (!done) { done = true; res(v); } };
+          setTimeout(function () { fin([null, null]); }, 12000);
+          var base = 'https://www.gstatic.com/firebasejs/10.12.2/', libs = ['firebase-app-compat.js', 'firebase-auth-compat.js', 'firebase-firestore-compat.js'];
+          var next = function (i) {
+            if (done) return;
+            if (i >= libs.length) {
+              try {
+                var fb = window.firebase;
+                fb.initializeApp({ apiKey: 'AIzaSyChtMjH4F4APM0clIsp2ei0Mm-jY0yY4L4', authDomain: 'my-persona-website.firebaseapp.com', projectId: 'my-persona-website', storageBucket: 'my-persona-website.firebasestorage.app', messagingSenderId: '1051672020897', appId: '1:1051672020897:web:5ea1fb6eb19b6ee1faade0' });
+                fb.auth().signInAnonymously().then(function (c) {
+                  var uid = c.user.uid;
+                  fin([fb.firestore(), { id: function () { return Promise.resolve(uid); }, can: function () { return Promise.resolve(true); }, isOwner: function () { return Promise.resolve(false); } }]);
+                }, function () { fin([null, null]); });
+              } catch (x) { fin([null, null]); }
+              return;
+            }
+            var sc = document.createElement('script'); sc.src = base + libs[i]; sc.onload = function () { next(i + 1); }; sc.onerror = function () { fin([null, null]); };
+            document.head.appendChild(sc);
+          };
+          next(0);
+        });
+      };
       gfRedraw(); var pad0 = document.getElementById('gfpad'); if (pad0) gfAttachPad(pad0);
-      Promise.all([use('db'), use('user')]).then(function (r) {
+      (window.claude && window.claude.use ? Promise.all([use('db'), use('user')]) : fbShim()).then(function (r) {
         var db = r[0], user = r[1];
         if (!db) { GF.mode = 'local'; try { gfMine = gfClean(JSON.parse(localStorage.getItem('gf-mine') || '[]')); gfEnsureTile(); gfPadRedraw(); gfRedraw(); } catch (x) {} GF.refresh && GF.refresh(); return; }
         gfDb = db;
