@@ -81,6 +81,8 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
 .row{display:flex;align-items:center;gap:12px;border:3px solid var(--ink);border-radius:14px;background:#fff;padding:10px 12px}
 .row .k{flex:none;width:5.2em;font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--muted)}
 .row .v{flex:1;min-width:0;font-weight:700;overflow-wrap:anywhere;user-select:all}
+.copy.go{background:var(--accent-2,#ffd24a);text-decoration:none;display:inline-block}
+.row .copy+.copy,.row .go+.copy{margin-inline-start:-6px}
 .copy{flex:none;font:700 12px/1 var(--font-body);border:2px solid var(--ink);border-radius:999px;background:#d9f5e8;padding:6px 10px;cursor:pointer;color:var(--ink)}
 .note{font-size:12.5px;color:var(--muted);line-height:1.6}
 #nogl{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px}
@@ -106,6 +108,10 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
   .card{grid-template-columns:52px minmax(0,1fr);gap:10px;padding:10px}
   .thumb{width:52px;height:52px}
   .tag{font-size:13px;padding:6px 9px}
+  .row{flex-wrap:wrap;row-gap:6px}
+  .row .k{flex:1 1 auto;width:auto}
+  .row .v{order:3;flex:1 1 100%;font-size:15px}
+  .row .copy{order:2}
   #promo .pbox,#viewer .vbox{max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px);padding-left:16px;padding-right:16px}
 }
 @media (max-width:380px){
@@ -138,6 +144,8 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
 #viewer .vframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 #viewer .vfig{margin:12px 0 0}
 #viewer .vfig img{max-height:none}
+#viewer .vfig .btn{margin-top:10px;width:100%;line-height:1.35;padding:11px 12px}
+[dir=rtl] .row .v{text-align:right}
 #viewer figcaption{display:grid;gap:2px;margin:8px 6px 0;font-size:14px;line-height:1.55}
 #viewer figcaption b{font-size:16px}
 #viewer figcaption span{color:var(--muted)}
@@ -252,7 +260,7 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
         nav: '小店', tag: '小店', eyebrow: '小店 OPEN',
         title: '想带走的小东西',
         items: [
-          { name: '易拉罐造型小玩具', meta: '玩具 · 钥匙扣 · 共 4 款', price: '价格待定', c: '#3fbf86', ch: '罐', img: 'can', thumb: 'cn1' }
+          { name: '易拉罐造型小玩具', meta: '玩具 · 钥匙扣 · 共 4 款', price: '130 EGP / 件', c: '#3fbf86', ch: '罐', img: 'can', thumb: 'cn1' }
         ],
         button: '咨询购买',
         buttonHref: 'https://wa.me/8619550262721?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E5%92%A8%E8%AF%A2%E8%B4%AD%E4%B9%B0%E6%98%93%E6%8B%89%E7%BD%90%E9%80%A0%E5%9E%8B%E5%B0%8F%E7%8E%A9%E5%85%B7',
@@ -265,10 +273,10 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
         title: '来找我聊聊',
         text: ['合作、购买、交朋友都欢迎，我会尽快回复。'],
         rows: [
-          { k: '微信', v: 'phone19550262721' },
-          { k: '邮箱', v: '2175965224@qq.com' },
-          { k: 'ins', v: 'mouhan_monster' },
-          { k: 'WhatsApp', v: '+86 19550262721' }
+          { k: '微信', v: 'phone19550262721', href: 'weixin://dl/chat?phone19550262721', copy: 1 },
+          { k: '邮箱', v: '2175965224@qq.com', href: 'mailto:2175965224@qq.com' },
+          { k: 'ins', v: 'mouhan_monster', href: 'https://www.instagram.com/mouhan_monster/' },
+          { k: 'WhatsApp', v: '+86 19550262721', href: 'https://wa.me/8619550262721' }
         ]
       }
     }
@@ -284,7 +292,7 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
       hint_m: '拖动旋转 · 滚轮缩放 · 点击家具进入 · 抓住小人拎起来甩，拖到墙上的挂钩处可以把他挂起来；小猫也能抓起来扔向小人；点住吉他（握住琴把）挥动还能敲他；右后方的涂鸦墙：每人在墙上有一小块位置；小屋后面是颜料房，点它进去给角色脱衣、泼颜料',
       hint_t: '单指旋转 · 双指缩放 · 点击家具进入 · 按住小人拎起来甩，拖到挂钩处可挂墙；小猫能扔，吉他也能抓起来挥',
       reset: '放回沙发', reset_hung: '放我下来',
-      copy: '复制', copied: '已复制', selected: '已选中',
+      copy: '复制', open: '打开', copied: '已复制', selected: '已选中',
       more_promo: '点开看游戏介绍 ›', more_img: '点开看作品 ›', more_vid: '点开播放视频 ›', more_href: '打开网站 ›',
       aria_promo: '查看《尼罗学汉字》介绍', aria_img: '查看大图：', aria_vid: '播放视频：', aria_href: '打开网站：',
       g_pad: '你的小画板', g_color: '颜色', g_size: '笔的粗细', g_undo: '撤销一笔', g_clear: '清空我画的', g_all: '清空整面墙', g_confirm: '再点一次确认清空',
@@ -297,7 +305,7 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
       g_saved: '已保存，所有访客都能在墙上看到你的小方块', g_quota: '墙已经画满了，暂时不能保存', g_noperm: '你没有保存涂鸦的权限，画的只在你自己的屏幕上',
       g_fail: '保存失败，请稍后再画一笔重试', g_clearing: '正在清空…', g_cleared: '整面墙已清空', g_clearfail: '清空失败', g_nodata: '暂时读取不到大家的涂鸦',
       promo_eyebrow: '游戏介绍', promo_cta: '想试玩，联系我', promo_wa: '你好，我想试玩《尼罗学汉字》',
-      v_video: '视频作品', v_shop: '小店商品', v_works: '作品集', v_price: '每款一件起，想要哪款告诉我', v_buy: '咨询购买（WhatsApp 留言）',
+      v_video: '视频作品', v_shop: '小店商品', v_works: '作品集', v_price: '每款一件起，想要哪款告诉我', v_buy: '咨询购买（WhatsApp 留言）', v_ask: '用 WhatsApp 咨询这一款', v_msg: '你好，我想买这款易拉罐造型小玩具：{n}（130 EGP），请问还有货吗？',
       nogl_t: '3D 小屋暂时打不开', nogl_p: '浏览器不支持 WebGL，请直接使用上方导航查看内容。',
       sign_works: '作品集', sign_shop: '小店', sign_contact: '联系我',
       s_plop: '啪嗒！', s_grab: ['哎呀！', '放我下来！', '别拎我呀~', '诶诶诶！'], s_fly: ['呜哇——', '飞起来啦——', '啊啊啊——'],
@@ -311,7 +319,7 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
       hint_m: 'Drag to rotate · Scroll to zoom · Click furniture to enter · Grab the character and fling him; drag him to the wall hook to hang him up; you can throw the cat at him, or grab his guitar (you hold the neck) and swing it at him; the graffiti wall at the back right gives each visitor a small tile; the paint room behind the house lets you strip and paint him',
       hint_t: 'One finger to rotate · Pinch to zoom · Tap furniture to enter · Press and hold the character to lift and fling; drag to the hook to hang him; the cat can be thrown; the guitar can be grabbed and swung',
       reset: 'Back to the sofa', reset_hung: 'Let me down',
-      copy: 'Copy', copied: 'Copied', selected: 'Selected',
+      copy: 'Copy', open: 'Open', copied: 'Copied', selected: 'Selected',
       more_promo: 'Open the game intro ›', more_img: 'View the work ›', more_vid: 'Play the video ›', more_href: 'Open the site ›',
       aria_promo: 'View the intro of Nile Hanzi', aria_img: 'View larger images: ', aria_vid: 'Play video: ', aria_href: 'Open website: ',
       g_pad: 'Your small drawing pad', g_color: 'Color', g_size: 'Pen thickness', g_undo: 'Undo stroke', g_clear: 'Clear mine', g_all: 'Clear whole wall', g_confirm: 'Tap again to confirm',
@@ -324,7 +332,7 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
       g_saved: 'Saved. All visitors can see your tile on the wall', g_quota: 'The wall is full, cannot save for now', g_noperm: "You don't have permission to save graffiti; your drawing stays on your own screen",
       g_fail: 'Save failed, draw another stroke to retry', g_clearing: 'Clearing…', g_cleared: 'The whole wall is cleared', g_clearfail: 'Clear failed', g_nodata: "Can't load everyone's graffiti right now",
       promo_eyebrow: 'GAME INTRO', promo_cta: 'Want to try it? Contact me', promo_wa: "Hi, I'd like to try Nile Hanzi",
-      v_video: 'Video', v_shop: 'Shop item', v_works: 'Portfolio', v_price: 'Starting from one per style; tell me which you want', v_buy: 'Ask to buy (WhatsApp message)',
+      v_video: 'Video', v_shop: 'Shop item', v_works: 'Portfolio', v_price: 'Starting from one per style; tell me which you want', v_buy: 'Ask to buy (WhatsApp message)', v_ask: 'Ask about this one on WhatsApp', v_msg: "Hi, I'd like to buy this soda-can toy: {n} (130 EGP). Is it available?",
       nogl_t: 'The 3D house is unavailable', nogl_p: 'Your browser does not support WebGL. Please use the navigation above to view the content.',
       sign_works: 'Works', sign_shop: 'Shop', sign_contact: 'Contact',
       s_plop: 'Thud!', s_grab: ['Oops!', 'Put me down!', "Don't pick me up~", 'Hey hey hey!'], s_fly: ['Waaah—', "I'm flying—", 'Aaaah—'],
@@ -338,7 +346,7 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
       hint_m: 'اسحب للتدوير · العجلة للتكبير · اضغط على الأثاث للدخول · أمسك الشخصية وارمِها، واسحبها إلى الخطاف على الجدار لتعليقها؛ ويمكنك رمي القطة أو أمسك غيتاره (تمسك العنق) وحرّكه نحوه أيضًا؛ وفي الخلف يمينًا جدار رسم لكل زائر فيه مربع صغير؛ وخلف البيت غرفة الألوان، حيث يمكنك خلع ملابس الشخصية ورشّه بالألوان',
       hint_t: 'إصبع واحد للتدوير · إصبعان للتكبير · المس الأثاث للدخول · اضغط مطولًا على الشخصية لرفعها ورميها، واسحبها إلى الخطاف لتعليقها؛ ويمكن رمي القطة وتحريك الغيتار',
       reset: 'أعدني إلى الأريكة', reset_hung: 'أنزلني',
-      copy: 'نسخ', copied: 'تم النسخ', selected: 'تم التحديد',
+      copy: 'نسخ', open: 'فتح', copied: 'تم النسخ', selected: 'تم التحديد',
       more_promo: 'افتح تعريف اللعبة ‹', more_img: 'شاهد العمل ‹', more_vid: 'شغّل الفيديو ‹', more_href: 'افتح الموقع ‹',
       aria_promo: 'عرض تعريف لعبة تعلّم الصينية على النيل', aria_img: 'عرض الصور بحجم أكبر: ', aria_vid: 'تشغيل الفيديو: ', aria_href: 'فتح الموقع: ',
       g_pad: 'لوحة الرسم الصغيرة الخاصة بك', g_color: 'اللون', g_size: 'سمك القلم', g_undo: 'تراجع عن خط', g_clear: 'امسح رسمي', g_all: 'امسح الجدار كله', g_confirm: 'اضغط مرة أخرى للتأكيد',
@@ -351,7 +359,7 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
       g_saved: 'تم الحفظ، ويستطيع جميع الزوار رؤية مربعك على الجدار', g_quota: 'امتلأ الجدار ولا يمكن الحفظ الآن', g_noperm: 'ليست لديك صلاحية حفظ الرسم، ويبقى رسمك على شاشتك وحدك',
       g_fail: 'فشل الحفظ، ارسم خطًا آخر لإعادة المحاولة', g_clearing: 'جارٍ المسح…', g_cleared: 'تم مسح الجدار بالكامل', g_clearfail: 'فشل المسح', g_nodata: 'تعذّر تحميل رسومات الجميع الآن',
       promo_eyebrow: 'تعريف باللعبة', promo_cta: 'تريد التجربة؟ تواصل معي', promo_wa: 'مرحبًا، أودّ تجربة لعبة تعلّم الصينية على النيل',
-      v_video: 'فيديو', v_shop: 'منتج المتجر', v_works: 'معرض الأعمال', v_price: 'من قطعة واحدة لكل طراز، أخبرني بما تريد', v_buy: 'استفسر عن الشراء (رسالة واتساب)',
+      v_video: 'فيديو', v_shop: 'منتج المتجر', v_works: 'معرض الأعمال', v_price: 'من قطعة واحدة لكل طراز، أخبرني بما تريد', v_buy: 'استفسر عن الشراء (رسالة واتساب)', v_ask: 'اسأل عن هذا الطراز عبر واتساب', v_msg: 'مرحبًا، أودّ شراء لعبة العلبة هذه: {n} (130 جنيه). هل هي متوفرة؟',
       nogl_t: 'تعذّر عرض البيت ثلاثي الأبعاد', nogl_p: 'المتصفح لا يدعم WebGL، يرجى استخدام قائمة التنقل أعلاه لعرض المحتوى.',
       sign_works: 'أعمالي', sign_shop: 'المتجر', sign_contact: 'تواصل',
       s_plop: 'طاخ!', s_grab: ['أوه!', 'أنزلني!', 'لا ترفعني~', 'هيه هيه!'], s_fly: ['واااو—', 'أنا أطير—', 'آآآه—'],
@@ -375,7 +383,7 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
           { name: 'An Fa Wen Hometex Website', meta: 'Website · Company site', desc: 'A site I built: company introduction, products, news and job openings.' },
           { name: 'My Graduation Project Video', meta: 'Video · YouTube', desc: 'My graduation project from the past. Tap to watch.' }] },
         shop: { nav: 'Shop', tag: 'Shop', eyebrow: 'SHOP OPEN', title: 'Little things to take home', items: [
-          { name: 'Soda-can toy', meta: 'Toy · Keychain · 4 styles', price: 'Price TBD' }], button: 'Ask to buy',
+          { name: 'Soda-can toy', meta: 'Toy · Keychain · 4 styles', price: '130 EGP each' }], button: 'Ask to buy',
           buttonHref: WA("Hi, I'd like to ask about buying the soda-can toys"), note: 'Orders are placed through my contact details for now; payment links may come later.' },
         graffiti: { nav: 'Graffiti', tag: 'Graffiti wall', eyebrow: 'GRAFFITI WALL', title: 'Leave your mark on the wall' },
         paint: { nav: 'Paint', tag: 'Paint room', eyebrow: '', title: '' },
@@ -413,7 +421,7 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
           { name: 'موقع An Fa Wen Hometex', meta: 'موقع · الموقع الرسمي للشركة', desc: 'موقع صنعته: تعريف بالشركة والمنتجات والأخبار والوظائف الشاغرة.' },
           { name: 'فيديو مشروع تخرجي', meta: 'فيديو · يوتيوب', desc: 'مشروع تخرجي من الماضي، اضغط للمشاهدة مباشرة.' }] },
         shop: { nav: 'المتجر', tag: 'المتجر', eyebrow: 'المتجر مفتوح', title: 'أشياء صغيرة تستحق الاقتناء', items: [
-          { name: 'لعبة صغيرة على شكل علبة مشروب', meta: 'لعبة · ميدالية مفاتيح · 4 أشكال', price: 'السعر يُحدد لاحقًا' }], button: 'استفسر عن الشراء',
+          { name: 'لعبة صغيرة على شكل علبة مشروب', meta: 'لعبة · ميدالية مفاتيح · 4 أشكال', price: '130 جنيه للقطعة' }], button: 'استفسر عن الشراء',
           buttonHref: WA('مرحبًا، أودّ الاستفسار عن شراء ألعاب العلب الصغيرة'), note: 'الطلب حاليًا عبر وسائل التواصل، وقد تُضاف روابط الدفع لاحقًا.' },
         graffiti: { nav: 'الجدارية', tag: 'جدار الرسم', eyebrow: 'جدار الرسم', title: 'اترك أثرك على الجدار' },
         paint: { nav: 'ألوان', tag: 'غرفة الألوان', eyebrow: '', title: '' },
@@ -518,7 +526,8 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
     }
     if (s.rows) {
       h += '<ul class="rows">' + s.rows.map(function (r) {
-        return '<li class="row"><span class="k">' + esc(r.k) + '</span><span class="v">' + esc(r.v) + '</span><button class="copy" type="button" data-copy="' + esc(r.v) + '">' + esc(i18n('copy')) + '</button></li>';
+        var cp = '<button class="copy" type="button" data-copy="' + esc(r.v) + '">' + esc(i18n('copy')) + '</button>', op = r.href ? '<a class="copy go" href="' + esc(r.href) + '"' + (r.href.indexOf('http') === 0 ? ' target="_blank" rel="noopener"' : '') + '>' + esc(i18n('open')) + ' ↗</a>' : '';
+        return '<li class="row"><span class="k">' + esc(r.k) + '</span><span class="v" dir="ltr">' + esc(r.v) + '</span>' + (op ? op + (r.copy ? cp : '') : cp) + '</li>';
       }).join('') + '</ul>';
     }
     if (s.button) h += '<button class="btn" type="button" ' + (s.buttonHref ? 'data-href="' + esc(s.buttonHref) + '"' : 'data-go="contact"') + '>' + esc(s.button) + '</button>';
@@ -588,7 +597,7 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
     viewEl.setAttribute('aria-label', it.name);
     if (vid) viewEl.innerHTML = '<div class="vbox"><button class="close" type="button" data-vclose aria-label="' + esc(i18n('close')) + '">✕</button><p class="eyebrow">' + esc(i18n('v_video')) + '</p><h3 style="margin-top:0">' + esc(it.name) + '</h3><div class="vframe"><iframe src="https://www.youtube.com/embed/' + vid + '?si=NV5xzh5sgK9JZlrb" title="' + esc(it.name) + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" frameborder="0" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>';
     else viewEl.innerHTML = '<div class="vbox"><button class="close" type="button" data-vclose aria-label="' + esc(i18n('close')) + '">✕</button><p class="eyebrow">' + esc(it.price ? i18n('v_shop') : i18n('v_works')) + '</p><h3 style="margin-top:0">' + esc(it.name) + '</h3>' + (it.price ? '<p class="meta"><span class="price">' + esc(it.price) + '</span> · ' + esc(i18n('v_price')) + '</p>' : '') +
-      (GALS[k] || []).map(function (g) { return '<figure class="vfig"><img alt="' + esc(g.name) + '" src="' + WORKIMG[g.k] + '"><figcaption><b>' + esc(g.name) + '</b><span>' + esc(g.meta) + '</span><span>' + esc(g.desc) + '</span></figcaption></figure>'; }).join('') + (it.price ? '<button class="btn" type="button" data-vhref="' + esc(CFG.sections.shop.buttonHref) + '">' + esc(i18n('v_buy')) + '</button>' : '') + '</div>';
+      (GALS[k] || []).map(function (g) { return '<figure class="vfig"><img alt="' + esc(g.name) + '" src="' + WORKIMG[g.k] + '"><figcaption><b>' + esc(g.name) + '</b><span>' + esc(g.meta) + '</span><span>' + esc(g.desc) + '</span></figcaption>' + (it.price ? '<button class="btn" type="button" data-vhref="' + esc(WA(i18n('v_msg').replace('{n}', g.name))) + '">' + esc(i18n('v_ask')) + ' · 130 EGP</button>' : '') + '</figure>'; }).join('') + (it.price ? '<button class="btn" type="button" data-vhref="' + esc(CFG.sections.shop.buttonHref) + '">' + esc(i18n('v_buy')) + '</button>' : '') + '</div>';
     viewEl.classList.add('on'); viewEl.querySelector('.vbox').scrollTop = 0; viewEl.querySelector('[data-vclose]').focus();
   }
   function closeViewer() { if (viewEl) { viewEl.classList.remove('on'); viewEl.innerHTML = ''; } }
