@@ -644,6 +644,8 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
 
   window.__site = { open: openSection, close: closeSection };
   applyLangDom();
+  var wantShop = /^#shop/i.test(location.hash);
+  if (wantShop) setTimeout(function () { openSection('shop'); }, 300);
 
   /* ---------- 3D ---------- */
   function boot() { (window.__threeP || Promise.resolve()).then(bootNow, bootNow); }
@@ -652,6 +654,7 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
     var renderer;
     try { renderer = new THREE.WebGLRenderer({ canvas: $('#gl'), antialias: true, alpha: true }); } catch (e) { fail(); return; }
     world = build(renderer);
+    if (wantShop && current === 'shop') world.focus('shop');
   }
   function fail() {
     var d = document.createElement('div'); d.id = 'nogl';
