@@ -996,6 +996,21 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
     cyl(jumpCan, 0.325, 0.325, 0.13, 0xffffff, 0, 0.5, 0, { noOutline: true });
     cyl(jumpCan, 0.27, 0.32, 0.1, 0xcfd3dc, 0, 1.03, 0, { t: 0.02 });
     cyl(jumpCan, 0.25, 0.25, 0.03, 0x9aa0ad, 0, 1.09, 0, { noOutline: true });
+    /* ===== 二维码牌：扫码直接打开跳一跳（https://jump.mouhan.dev/） ===== */
+    var QR_ROWS = ["1111111000011000101111111", "1000001000110001001000001", "1011101010111011001011101", "1011101011001110001011101", "1011101011111100101011101", "1000001010111111101000001", "1111111010101010101111111", "0000000011100001100000000", "1011111001001101101111100", "1011110000011100110100010", "0000111111001111111011011", "1010110000101000111010001", "1000111000110110011010111", "1010010001001000100101010", "1000101010100011110111011", "1011100001101001111110001", "1010001101101110111110100", "0000000010000001100011000", "1111111000111010101010111", "1000001011010010100011001", "1011101011011111111110100", "1011101011001011111011111", "1011101011100110110001101", "1000001001010001101111001", "1111111010111101001111111"];
+    var qrSign = new THREE.Group(); qrSign.position.set(3.0, 0, 1.4); qrSign.rotation.y = -0.62; jumpG.add(qrSign);
+    cyl(qrSign, 0.06, 0.07, 1.15, 0xc98f58, 0, 0.575, -0.02, { t: 0.02 });
+    box(qrSign, 1.5, 1.75, 0.1, 0xffffff, 0, 1.55, 0, { t: 0.04 });
+    var qrTex = ctex(300, 350, function (g, w, h) {
+      g.fillStyle = '#fff'; g.fillRect(0, 0, w, h);
+      var m = 10, off = (w - 25 * m) / 2;
+      g.fillStyle = '#17141f';
+      for (var r = 0; r < 25; r++) for (var c = 0; c < 25; c++) if (QR_ROWS[r].charAt(c) === '1') g.fillRect(off + c * m, 20 + r * m, m, m);
+      g.textAlign = 'center'; g.font = '34px ' + DF; g.fillStyle = '#e0242c'; g.fillText('扫码玩 · SCAN', w / 2, 322);
+    });
+    qrTex.magFilter = THREE.NearestFilter; qrTex.minFilter = THREE.LinearFilter; qrTex.generateMipmaps = false; qrTex.anisotropy = 1;
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { qrTex._draw(qrTex._cv.getContext('2d'), 300, 350); qrTex.needsUpdate = true; });
+    plane(qrSign, 1.4, 1.633, screenMat(qrTex), 0, 1.55, 0.062);
     blob(-1.9, 6.3, 4.2, 2.6);
     hot(jumpG, 'jump', [-1.9, 2.9, 6.3]);
 
