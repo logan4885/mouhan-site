@@ -269,6 +269,7 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
       graffiti: { nav: '涂鸦', tag: '涂鸦墙', eyebrow: '涂鸦墙', title: '来墙上留个痕迹' },
       paint: { nav: '颜料房', tag: '颜料房', eyebrow: '', title: '' },
       jump: { nav: '跳一跳', tag: '🥤 跳一跳 3D', eyebrow: '', title: '' },
+      can: { nav: '展厅', tag: '🌀 虚拟can展厅', eyebrow: '', title: '' },
       contact: {
         nav: '联系', tag: '联系我', eyebrow: '联系方式',
         title: '来找我聊聊',
@@ -389,6 +390,7 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
         graffiti: { nav: 'Graffiti', tag: 'Graffiti wall', eyebrow: 'GRAFFITI WALL', title: 'Leave your mark on the wall' },
         paint: { nav: 'Paint', tag: 'Paint room', eyebrow: '', title: '' },
         jump: { nav: 'Jump', tag: '🥤 Jump Jump 3D', eyebrow: '', title: '' },
+        can: { nav: 'Showroom', tag: '🌀 Virtual Can Showroom', eyebrow: '', title: '' },
         contact: { nav: 'Contact', tag: 'Contact me', eyebrow: 'CONTACT', title: "Let's chat",
           text: ['Collaborations, purchases, making friends: all welcome. I will reply as soon as I can.'], rows: [{ k: 'WeChat' }, { k: 'Email' }, {}, {}] }
       },
@@ -428,6 +430,7 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
         graffiti: { nav: 'الجدارية', tag: 'جدار الرسم', eyebrow: 'جدار الرسم', title: 'اترك أثرك على الجدار' },
         paint: { nav: 'ألوان', tag: 'غرفة الألوان', eyebrow: '', title: '' },
         jump: { nav: 'قفزة', tag: '🥤 قفزة قفزة 3D', eyebrow: '', title: '' },
+        can: { nav: 'المعرض', tag: '🌀 معرض العلب الافتراضي', eyebrow: '', title: '' },
         contact: { nav: 'تواصل', tag: 'تواصل معي', eyebrow: 'التواصل', title: 'تعالَ نتحدث',
           text: ['التعاون والشراء وتكوين الصداقات كلها مرحَّب بها، وسأرد في أقرب وقت.'], rows: [{ k: 'ويتشات' }, { k: 'البريد' }, {}, {}] }
       },
@@ -605,9 +608,11 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
   }
   function closeViewer() { if (viewEl) { viewEl.classList.remove('on'); viewEl.innerHTML = ''; } }
   var current = null, world = null;
+  var CAN_URL = 'https://mouhan.dev/can/'; // 虚拟can展厅（橙汁罐指尖陀螺）
   var JUMP_URL = 'https://jump.mouhan.dev/'; // 跳一跳小游戏（子域名，单独的 GitHub 仓库 mouhan-jump）
   function openSection(k) {
     if (k === 'jump') { location.href = JUMP_URL; return; }
+    if (k === 'can') { location.href = CAN_URL; return; }
     if (k === 'paint') { current = 'paint'; GF.open = false; panel.hidden = true; order.forEach(function (o) { navBtns[o].setAttribute('aria-pressed', 'false'); }); if (world) world.focus('paint'); if (window.__paintRoom) window.__paintRoom.enter(); return; }
     current = k; GF.open = k === 'graffiti'; renderSection(k); if (world && GF.api) GF.api.redraw(); panel.hidden = false; panel.scrollTop = 0;
     order.forEach(function (o) { navBtns[o].setAttribute('aria-pressed', o === k ? 'true' : 'false'); });
@@ -1013,6 +1018,42 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
     plane(qrSign, 1.4, 1.633, screenMat(qrTex), 0, 1.55, 0.062);
     blob(-1.9, 6.3, 4.2, 2.6);
     hot(jumpG, 'jump', [-1.9, 2.9, 6.3]);
+
+    /* ===== 虚拟can展厅：右前方草地上的展台 + 旋转的橙汁罐指尖陀螺 + 二维码牌（https://mouhan.dev/can/） ===== */
+    var canG = new THREE.Group(); canG.position.set(5.0, 0, 5.4); canG.rotation.y = -0.5; scene.add(canG);
+    cyl(canG, 1.15, 1.25, 0.18, 0xd9d4e6, 0, 0.09, 0, { t: 0.03 });
+    cyl(canG, 0.95, 0.95, 0.5, 0x8d6bd6, 0, 0.43, 0, { t: 0.03 });
+    cyl(canG, 1.0, 1.0, 0.08, 0xffd166, 0, 0.72, 0, { t: 0.02 });
+    var canSpin = new THREE.Group(); canSpin.position.set(0, 1.55, 0); canG.add(canSpin);
+    var canCan = new THREE.Group(); canSpin.add(canCan);
+    cyl(canCan, 0.3, 0.3, 0.7, 0xff9a1f, 0, 0, 0, { t: 0.025 });
+    cyl(canCan, 0.305, 0.305, 0.12, 0xffffff, 0, 0, 0, { noOutline: true });
+    cyl(canCan, 0.25, 0.3, 0.08, 0xcfd3dc, 0, 0.39, 0, { t: 0.02 });
+    cyl(canCan, 0.3, 0.25, 0.08, 0xcfd3dc, 0, -0.39, 0, { t: 0.02 });
+    for (var ci = 0; ci < 3; ci++) { var ca = ci * Math.PI * 2 / 3; cyl(canSpin, 0.2, 0.2, 0.16, 0xffb347, Math.cos(ca) * 0.72, 0, Math.sin(ca) * 0.72, { t: 0.02 }); }
+        cyl(canG, 0.04, 0.04, 0.7, 0xc98f58, -1.7, 0.35, 0.9, { t: 0.02 });
+    box(canG, 1.7, 0.5, 0.08, 0x8d6bd6, -1.7, 0.95, 0.9, { t: 0.03 });
+    var canTex = ctex(340, 100, function (g, w, h) {
+      g.fillStyle = '#8d6bd6'; g.fillRect(0, 0, w, h); g.textAlign = 'center'; g.fillStyle = '#fff'; g.font = '44px ' + DF; g.fillText('虚拟can展厅', w / 2, 64);
+    });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { canTex._draw(canTex._cv.getContext('2d'), 340, 100); canTex.needsUpdate = true; });
+    plane(canG, 1.62, 0.44, screenMat(canTex), -1.7, 0.95, 0.125);
+    var QR_CAN = ["1111111000101010101111111", "1000001000000111101000001", "1011101010010001101011101", "1011101010100101001011101", "1011101011111100101011101", "1000001011001111001000001", "1111111010101010101111111", "0000000010011011100000000", "1011111000111111001111100", "0110110011010000100100010", "0110011110100101010101011", "1001110000010010110110001", "1001111001111110011010111", "1000000110100000010101010", "1011111110111001011111011", "1011100001110010111110001", "1011111001010110111110100", "0000000010101101100011000", "1111111000000110101010111", "1000001010001000100011010", "1011101011001101111110111", "1011101011000100011011111", "1011101010011111000001101", "1000001001110011100111001", "1111111010111000001111111"];
+    var canQr = new THREE.Group(); canQr.position.set(2.2, 0, 0.9); canQr.rotation.y = -0.2; canG.add(canQr);
+    cyl(canQr, 0.06, 0.07, 1.15, 0xc98f58, 0, 0.575, -0.02, { t: 0.02 });
+    box(canQr, 1.5, 1.75, 0.1, 0xffffff, 0, 1.55, 0, { t: 0.04 });
+    var canQrTex = ctex(300, 350, function (g, w, h) {
+      g.fillStyle = '#fff'; g.fillRect(0, 0, w, h);
+      var m = 10, off = (w - 25 * m) / 2;
+      g.fillStyle = '#17141f';
+      for (var r = 0; r < 25; r++) for (var c = 0; c < 25; c++) if (QR_CAN[r].charAt(c) === '1') g.fillRect(off + c * m, 20 + r * m, m, m);
+      g.textAlign = 'center'; g.font = '34px ' + DF; g.fillStyle = '#8d6bd6'; g.fillText('扫码看展厅 · SCAN', w / 2, 322);
+    });
+    canQrTex.magFilter = THREE.NearestFilter; canQrTex.minFilter = THREE.LinearFilter; canQrTex.generateMipmaps = false; canQrTex.anisotropy = 1;
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { canQrTex._draw(canQrTex._cv.getContext('2d'), 300, 350); canQrTex.needsUpdate = true; });
+    plane(canQr, 1.4, 1.633, screenMat(canQrTex), 0, 1.55, 0.062);
+    blob(5.0, 5.4, 4.2, 2.6);
+    hot(canG, 'can', [5.0, 3.0, 5.4]);
 
     /* ===== market stall (left wall, front) ===== */
     var shop = new THREE.Group(); shop.position.set(-3.3, 0, 2.3); shop.rotation.y = Math.PI / 2; room.add(shop);
@@ -1579,7 +1620,7 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
     function pick(e) {
       var r = canvas.getBoundingClientRect(); ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
       ray.setFromCamera(ndc, camera); pickGuitar = false;
-      var hit = ray.intersectObjects(room.children.concat([gw, paintG, jumpG]), true), occl = hit.length ? hit[0].object : null;
+      var hit = ray.intersectObjects(room.children.concat([gw, paintG, jumpG, canG]), true), occl = hit.length ? hit[0].object : null;
       for (var i = 0; i < hit.length; i++) { var o = hit[i].object; while (o && !(o.userData && o.userData.key)) o = o.parent; if (o) { lastHitPoint.copy(hit[i].point); pickGuitar = false; if (o.userData.key === 'about') { var gh = ray.intersectObject(con, true); if (gh.length && gh[0].distance <= hit[i].distance + 0.8) pickGuitar = true;   /* any part of the guitar */ } return o; } break; }
       return null;
     }
@@ -1608,7 +1649,7 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
       camera.lookAt(cam.tg);
       if (!reduce) {
         tail.rotation.z = Math.sin(t * (cs === 'idle' && wMode === 'walk' ? 7 : 2.6)) * 0.35;
-        var jp = (t * 1.1) % 1, jh = Math.sin(jp * Math.PI); jumpCan.position.y = 0.7 + jh * 0.9; jumpCan.rotation.z = jp * Math.PI * 2; jumpCan.scale.set(1, jh < 0.08 ? 0.85 : 1, 1);
+        var jp = (t * 1.1) % 1, jh = Math.sin(jp * Math.PI); jumpCan.position.y = 0.7 + jh * 0.9; jumpCan.rotation.z = jp * Math.PI * 2; jumpCan.scale.set(1, jh < 0.08 ? 0.85 : 1, 1); canSpin.rotation.y = t * 3.2; canSpin.position.y = 1.55 + Math.sin(t * 1.6) * 0.08;
         clouds.forEach(function (c, i) { c.g.position.y = c.y + Math.sin(t * 0.6 + i) * 0.25; c.g.position.x = c.p + Math.sin(t * 0.15 + i * 2) * 0.4; });
         if (t > nextBlink) { blinkT = t; nextBlink = t + 2.5 + Math.random() * 2.5; }
         var bl = t - blinkT < 0.14 ? 0.1 : 1; eyes.forEach(function (e) { e.scale.y = bl; });
