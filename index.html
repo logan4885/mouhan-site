@@ -1031,14 +1031,12 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
     cyl(canCan, 0.25, 0.3, 0.08, 0xcfd3dc, 0, 0.39, 0, { t: 0.02 });
     cyl(canCan, 0.3, 0.25, 0.08, 0xcfd3dc, 0, -0.39, 0, { t: 0.02 });
     for (var ci = 0; ci < 3; ci++) { var ca = ci * Math.PI * 2 / 3; cyl(canSpin, 0.2, 0.2, 0.16, 0xffb347, Math.cos(ca) * 0.72, 0, Math.sin(ca) * 0.72, { t: 0.02 }); }
-        cyl(canG, 0.05, 0.05, 1.1, 0xc98f58, -2.1, 0.55, 1.3, { t: 0.02 });
-    box(canG, 1.9, 0.62, 0.08, 0x8d6bd6, -2.1, 1.3, 1.3, { t: 0.03 });
-    var canTex = ctex(340, 100, function (g, w, h) {
-      g.fillStyle = '#8d6bd6'; g.fillRect(0, 0, w, h); g.textAlign = 'center'; g.fillStyle = '#fff'; g.font = '44px ' + DF; g.fillText('虚拟can展厅', w / 2, 64);
+        var canTex = ctex(340, 100, function (g, w, h) {
+      g.fillStyle = '#fff6d6'; g.fillRect(0, 0, w, h); g.textAlign = 'center'; g.fillStyle = '#5b3fa8'; g.font = '44px ' + DF; g.fillText('虚拟can展厅', w / 2, 64);
     });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { canTex._draw(canTex._cv.getContext('2d'), 340, 100); canTex.needsUpdate = true; });
-    plane(canG, 1.8, 0.53, screenMat(canTex), -2.1, 1.3, 1.345);
-    plane(canG, 1.8, 0.53, screenMat(canTex), -2.1, 1.3, 1.255).rotation.y = Math.PI;
+    plane(canG, 1.0, 0.294, screenMat(canTex), 0, 0.43, 0.96);
+    plane(canG, 1.0, 0.294, screenMat(canTex), 0, 0.43, -0.96).rotation.y = Math.PI;
     var QR_CAN = ["1111111000101010101111111", "1000001000000111101000001", "1011101010010001101011101", "1011101010100101001011101", "1011101011111100101011101", "1000001011001111001000001", "1111111010101010101111111", "0000000010011011100000000", "1011111000111111001111100", "0110110011010000100100010", "0110011110100101010101011", "1001110000010010110110001", "1001111001111110011010111", "1000000110100000010101010", "1011111110111001011111011", "1011100001110010111110001", "1011111001010110111110100", "0000000010101101100011000", "1111111000000110101010111", "1000001010001000100011010", "1011101011001101111110111", "1011101011000100011011111", "1011101010011111000001101", "1000001001110011100111001", "1111111010111000001111111"];
     var canQr = new THREE.Group(); canQr.position.set(2.7, 0, 0.9); canQr.rotation.y = 0.1; canG.add(canQr);
     cyl(canQr, 0.06, 0.07, 1.15, 0xc98f58, 0, 0.575, -0.02, { t: 0.02 });
