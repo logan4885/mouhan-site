@@ -747,7 +747,7 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
       cyl(g, 0.16, 0.22, 1.0, 0x9a6a43, 0, 0.5, 0);
       sph(g, 0.8, 0x3fbf86, 0, 1.5, 0); sph(g, 0.55, 0x58d49b, 0.45, 1.95, 0.1); sph(g, 0.5, 0x58d49b, -0.4, 1.9, -0.1);
     }
-    tree(4.6, 7.2, 1); tree(-5.7, -2.6, 1.15); tree(-7.4, 3.2, 0.9); tree(8.4, -7.6, 1.15); tree(-8.2, -8.2, 1); tree(9.6, 3.6, 0.9); tree(-10, -3.6, 1.05); tree(-6.5, -11.5, 1.2);
+    tree(8.8, 8.8, 1); tree(-5.7, -2.6, 1.15); tree(-7.4, 3.2, 0.9); tree(8.4, -7.6, 1.15); tree(-8.2, -8.2, 1); tree(9.6, 3.6, 0.9); tree(-10, -3.6, 1.05); tree(-6.5, -11.5, 1.2);
 
     /* ===== room shell ===== */
     var room = new THREE.Group(); scene.add(room);
@@ -1020,7 +1020,7 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
     hot(jumpG, 'jump', [-1.9, 2.9, 6.3]);
 
     /* ===== 虚拟can展厅：右前方草地上的展台 + 旋转的橙汁罐指尖陀螺 + 二维码牌（https://mouhan.dev/can/） ===== */
-    var canG = new THREE.Group(); canG.position.set(5.0, 0, 5.4); canG.rotation.y = -0.5; scene.add(canG);
+    var canG = new THREE.Group(); canG.position.set(4.6, 0, 5.0); canG.rotation.y = -0.3; scene.add(canG);
     cyl(canG, 1.15, 1.25, 0.18, 0xd9d4e6, 0, 0.09, 0, { t: 0.03 });
     cyl(canG, 0.95, 0.95, 0.5, 0x8d6bd6, 0, 0.43, 0, { t: 0.03 });
     cyl(canG, 1.0, 1.0, 0.08, 0xffd166, 0, 0.72, 0, { t: 0.02 });
@@ -1039,7 +1039,7 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { canTex._draw(canTex._cv.getContext('2d'), 340, 100); canTex.needsUpdate = true; });
     plane(canG, 1.62, 0.44, screenMat(canTex), -1.7, 0.95, 0.125);
     var QR_CAN = ["1111111000101010101111111", "1000001000000111101000001", "1011101010010001101011101", "1011101010100101001011101", "1011101011111100101011101", "1000001011001111001000001", "1111111010101010101111111", "0000000010011011100000000", "1011111000111111001111100", "0110110011010000100100010", "0110011110100101010101011", "1001110000010010110110001", "1001111001111110011010111", "1000000110100000010101010", "1011111110111001011111011", "1011100001110010111110001", "1011111001010110111110100", "0000000010101101100011000", "1111111000000110101010111", "1000001010001000100011010", "1011101011001101111110111", "1011101011000100011011111", "1011101010011111000001101", "1000001001110011100111001", "1111111010111000001111111"];
-    var canQr = new THREE.Group(); canQr.position.set(2.2, 0, 0.9); canQr.rotation.y = -0.2; canG.add(canQr);
+    var canQr = new THREE.Group(); canQr.position.set(2.7, 0, 0.9); canQr.rotation.y = 0.1; canG.add(canQr);
     cyl(canQr, 0.06, 0.07, 1.15, 0xc98f58, 0, 0.575, -0.02, { t: 0.02 });
     box(canQr, 1.5, 1.75, 0.1, 0xffffff, 0, 1.55, 0, { t: 0.04 });
     var canQrTex = ctex(300, 350, function (g, w, h) {
@@ -1052,8 +1052,8 @@ nav{pointer-events:auto;display:flex;gap:8px;flex-wrap:wrap}
     canQrTex.magFilter = THREE.NearestFilter; canQrTex.minFilter = THREE.LinearFilter; canQrTex.generateMipmaps = false; canQrTex.anisotropy = 1;
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { canQrTex._draw(canQrTex._cv.getContext('2d'), 300, 350); canQrTex.needsUpdate = true; });
     plane(canQr, 1.4, 1.633, screenMat(canQrTex), 0, 1.55, 0.062);
-    blob(5.0, 5.4, 4.2, 2.6);
-    hot(canG, 'can', [5.0, 3.0, 5.4]);
+    blob(4.6, 5.0, 4.2, 2.6);
+    hot(canG, 'can', [4.6, 3.0, 5.0]);
 
     /* ===== market stall (left wall, front) ===== */
     var shop = new THREE.Group(); shop.position.set(-3.3, 0, 2.3); shop.rotation.y = Math.PI / 2; room.add(shop);
